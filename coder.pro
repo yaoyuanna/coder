@@ -1,5 +1,5 @@
 QT       += core gui
-
+QT       +=multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -30,12 +30,14 @@ LIBS += C:/my_Develp_lib/ffmpeg-4.2.2-win64-dev/lib/avcodec.lib\
 
 
 SOURCES += \
+    audio_read.cpp \
     main.cpp \
     mainwindow.cpp \
     picinpic_read.cpp \
     picinpic_window.cpp \
     savevideofilethread.cpp
 HEADERS += \
+    audio_read.h \
     common.h \
     mainwindow.h \
     picinpic_read.h \

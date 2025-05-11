@@ -60,7 +60,7 @@ void MainWindow::on_pb_satrt_clicked()
     av_infor infor;
     infor.filename=m_saveUrl;
     infor.frame_rate=FRAME_RATE;
-    infor.have_audio=false;
+    infor.have_audio=true;
     infor.have_camera=false;
     infor.have_screen=true;
     infor.videoBiteRate=VIDEOBITRATE;
@@ -103,6 +103,7 @@ void MainWindow::on_cb_screen_stateChanged(int arg1)
 
 void MainWindow::on_cb_voice_stateChanged(int arg1)
 {
-    qDebug()<<arg1;
+    if(arg1==0);
+    if(arg1==2);
 }
 

@@ -1,24 +1,46 @@
 #include "picinpic_read.h"
-PicInPic_Read::PicInPic_Read(QObject *parent): QObject(parent)
+PicInPic_Read::PicInPic_Read(QObject *parent): QThread(parent)
 {
     timer = new QTimer(this);
     //timer->setTimerType(Qt::PreciseTimer);
-    src = QApplication::primaryScreen();
+    // src = QApplication::primaryScreen();
     connect( timer , SIGNAL(timeout()) , this , SLOT(slot_getVideoFrame()));
+    isStop=false;
+}
+
+void PicInPic_Read::run()
+{
+    int diff=1000/FRAME_RATE;
+    int count=0;
+    qint64 beginTime = QDateTime::currentMSecsSinceEpoch();
+    while(1){
+        if(isStop)break;
+        slot_getVideoFrame();
+        qint64 curTime=QDateTime::currentMSecsSinceEpoch();
+        count++;
+        while(curTime- beginTime<count*diff){
+            if(isStop)break;
+            QThread::msleep(5);
+            curTime=QDateTime::currentMSecsSinceEpoch();
+        }
+    }
 }
 void PicInPic_Read::slot_openVideo()
 {
+    isStop=false;
     cap.open(0);
     if(!cap.isOpened()){
         QMessageBox::information(NULL,tr("提示"),tr("视频没有打开"));
         return;
     }
     //宁多勿少
-    timer->start(1000/FRAME_RATE-10);
+    //timer->start(1000/FRAME_RATE-10);
+    this->start();
 }
 void PicInPic_Read::slot_closeVideo()
 {
-    timer->stop();
+    isStop=true;
+    //timer->stop();
     if(cap.isOpened())
         cap.release();
     Q_EMIT SIG_sendVideoFrame( QImage() );
@@ -38,6 +60,7 @@ void PicInPic_Read::slot_getVideoFrame()
     // //投递画中画图片
     // Q_EMIT SIG_sendPicInPic( iconImage );
     //获取桌面截图
+    QScreen* src = QApplication::primaryScreen();
     QPixmap map = src->grabWindow( QApplication::desktop()->winId());
     //转化为 RGB24 QImage
     QImage image = map.toImage().convertToFormat(QImage::Format_RGB888);

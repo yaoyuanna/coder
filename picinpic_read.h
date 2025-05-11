@@ -11,11 +11,13 @@
 #include<QApplication>
 #include<QDesktopWidget>
 #include<QScreen>
-class PicInPic_Read: public QObject
+#include<QThread>
+class PicInPic_Read: public QThread
 {
     Q_OBJECT
 public:
     explicit PicInPic_Read(QObject *parent = 0);
+    void run();
 signals:
     void SIG_sendVideoFrame( QImage img ); // 用于预览
     void SIG_sendVideoFrameData( uint8_t* picture_buf, int buffer_size ); //采集的数据格式 YUV420P
@@ -25,9 +27,10 @@ public slots:
     void slot_openVideo(); //开启采集
     void slot_closeVideo(); //关闭采集
 private:
+    bool isStop;
     VideoCapture cap; //opencv 采集摄像头对象
     QTimer * timer; //定时器
-    QScreen *src;//屏幕
+    QScreen *src1;//屏幕
     int ImageToYuvBuffer(QImage &image,uint8_t **buffer); //RGB24 转为 yuv420p
 };
 #endif // PICINPIC_READ_H

@@ -21,6 +21,6 @@ extern "C"
 #include"core/core.hpp"
 #include"opencv2\imgproc\types_c.h"
 using namespace cv;
-#define FRAME_RATE (15)
+#define FRAME_RATE (25)
 #define VIDEOBITRATE 2000000
 #endif // COMMON_H
