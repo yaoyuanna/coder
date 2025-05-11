@@ -185,7 +185,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="le_editurl"/>
+         <widget class="QLineEdit" name="le_editurl">
+          <property name="text">
+           <string>C:\Users\86139\Desktop\test.flv</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="pb_seturl">

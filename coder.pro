@@ -4,6 +4,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
+include(./opengl/opengl.pri)
+
+INCLUDEPATH += ./opengl/
+
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -27,13 +31,20 @@ LIBS += C:/my_Develp_lib/ffmpeg-4.2.2-win64-dev/lib/avcodec.lib\
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    picinpic_read.cpp \
+    picinpic_window.cpp \
+    savevideofilethread.cpp
 HEADERS += \
     common.h \
-    mainwindow.h
+    mainwindow.h \
+    picinpic_read.h \
+    picinpic_window.h \
+    savevideofilethread.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    picinpic_window.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
